@@ -46,7 +46,7 @@ void Server::serving()
     char buff[1024];
     int rec;
     socklen_t sock_len = sizeof(_sin);
-
+    
     while(1)
     {
         acc = accept(_sock, (struct sockaddr *)&_sin, &sock_len);
@@ -67,6 +67,7 @@ void Server::serving()
             }
             else
                 std::cout << buff << std::endl;
-        }   
+            memset(buff, 0, sizeof(buff));
+        }
     }
 }
