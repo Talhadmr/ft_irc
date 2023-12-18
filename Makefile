@@ -4,7 +4,7 @@ FLAGS = -Wall -Werror -Wextra -std=c++98
 
 NAME = server
 
-SRC = main.cpp server.cpp
+SRC = main.cpp server.cpp parse.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
@@ -16,7 +16,7 @@ $(NAME): $(OBJ)
 clean:
 	rm -rf $(OBJ)
 
-fclean: 
+fclean:
 	rm -rf $(NAME) $(OBJ)
 re: clean all
 

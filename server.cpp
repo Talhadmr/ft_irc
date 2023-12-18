@@ -18,6 +18,12 @@ Server::Server(char *str) {
     _sin.sin_port = htons(_port);
     _sin.sin_addr.s_addr = INADDR_ANY;
 
+    int reuse = 1;
+
+    if (setsockopt(_socket, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(int)) == -1) {
+        std::cerr << "setsockopt(SO_REUSEADDR) failed" << std::endl;
+        exit(1);
+    }
     _bin = bind(_socket, (struct sockaddr *)&_sin, sizeof(_sin));
 
     if (_bin)
@@ -43,6 +49,7 @@ void Server::serving() {
     struct sockaddr_in client;
     socklen_t addr_len = sizeof(client);
     std::vector<ClientInfo> clients;
+    int flag;
 
     FD_ZERO(&rfds);
     FD_SET(_socket, &rfds);
@@ -53,6 +60,7 @@ void Server::serving() {
     while (true)
     {
         tmp_rfds = rfds;
+        flag = 0;
 
         if (select(max_sd + 1, &tmp_rfds, NULL, NULL, NULL) == -1)
         {
@@ -71,7 +79,7 @@ void Server::serving() {
             {
                 std::cout << "New connection from " << inet_ntoa(client.sin_addr) << " on socket " << new_socket << std::endl;
                 clients.push_back(ClientInfo(new_socket, client));
-
+                flag = 1;
                 FD_SET(new_socket, &rfds);
 
                 if (new_socket > max_sd)
@@ -97,7 +105,7 @@ void Server::serving() {
                 {
                     buffer[bytes_received] = '\0';
                     command_parse(buffer, clients);
-                    std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
+                    //std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
                     ++it;
                 }
             }
@@ -107,3 +115,45 @@ void Server::serving() {
     }
     close(_socket);
 }
+
+void    ClientInfo::set_password(string pass)
+{
+    password = pass;
+}
+
+void    ClientInfo::set_username(string user)
+{
+    username = user;
+}
+
+void    ClientInfo::set_nickname(string nick)
+{
+    nickname = nick;
+}
+
+void    ClientInfo::set_realname(string real)
+{
+    realname = real;
+}
+
+string  ClientInfo::get_password()
+{
+    return password;
+}
+
+string  ClientInfo::get_username()
+{
+    return username;
+}
+
+string  ClientInfo::get_nickname()
+{
+    return nickname;
+}
+
+string  ClientInfo::get_realname()
+{
+    return realname;
+}
+
+
