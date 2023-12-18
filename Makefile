@@ -4,7 +4,7 @@ FLAGS = -Wall -Werror -Wextra -std=c++98
 
 NAME = server
 
-SRC = main.cpp real_server.cpp
+SRC = main.cpp server.cpp
 
 OBJ = $(SRC:.cpp=.o)
 
