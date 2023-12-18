@@ -73,7 +73,7 @@ void Server::serving() {
                 clients.push_back(ClientInfo(new_socket, client));
 
                 FD_SET(new_socket, &rfds);
-                
+
                 if (new_socket > max_sd)
                     max_sd = new_socket;
             }
@@ -96,6 +96,7 @@ void Server::serving() {
                 else
                 {
                     buffer[bytes_received] = '\0';
+                    command_parse(buffer, clients);
                     std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
                     ++it;
                 }

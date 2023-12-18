@@ -8,6 +8,9 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
+using std::string;
+using std::cout;
+using std::endl;
 
 class Server
 {
@@ -21,7 +24,7 @@ class Server
         void serving();
 };
 
-class ClientInfo 
+class ClientInfo
 {
     public:
         int socket_fd;
@@ -32,5 +35,6 @@ class ClientInfo
     ClientInfo(int fd, sockaddr_in addr);
 };
 
+void	command_parse(char * buffer , std::vector<ClientInfo> clients);
 
 #endif
