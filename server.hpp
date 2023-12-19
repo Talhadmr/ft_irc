@@ -49,7 +49,8 @@ class ClientInfo
 
     ClientInfo(int fd, sockaddr_in addr);
 };
-void	command_parse(string buffer, std::vector<ClientInfo> clients);
+void	command_info(string buffer, std::vector<ClientInfo> clients,  ClientInfo ite);
+void	command_message(string buffer, std::vector<ClientInfo> clients);
 
 
 #endif

@@ -49,7 +49,7 @@ void Server::serving() {
     struct sockaddr_in client;
     socklen_t addr_len = sizeof(client);
     std::vector<ClientInfo> clients;
-    int flag;
+    int flag = 0;
 
     FD_ZERO(&rfds);
     FD_SET(_socket, &rfds);
@@ -60,7 +60,6 @@ void Server::serving() {
     while (true)
     {
         tmp_rfds = rfds;
-        flag = 0;
 
         if (select(max_sd + 1, &tmp_rfds, NULL, NULL, NULL) == -1)
         {
@@ -77,9 +76,9 @@ void Server::serving() {
             }
             else
             {
+                flag = 1;
                 std::cout << "New connection from " << inet_ntoa(client.sin_addr) << " on socket " << new_socket << std::endl;
                 clients.push_back(ClientInfo(new_socket, client));
-                flag = 1;
                 FD_SET(new_socket, &rfds);
 
                 if (new_socket > max_sd)
@@ -104,7 +103,11 @@ void Server::serving() {
                 else
                 {
                     buffer[bytes_received] = '\0';
-                    command_parse(buffer, clients);
+                    if(flag == 1)
+                        command_info(buffer, clients, *it);
+                    else
+                        command_message(buffer, clients);
+                    flag = 0;
                     //std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
                     ++it;
                 }
