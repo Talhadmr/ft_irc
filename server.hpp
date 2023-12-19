@@ -34,6 +34,9 @@ class ClientInfo
         string realname;
 
     public:
+        string command;
+        string argumant1;
+        string argumant2;
         int socket_fd;
         sockaddr_in address;
         string get_password();
@@ -50,8 +53,9 @@ class ClientInfo
 
     ClientInfo(int fd, sockaddr_in addr);
 };
-void	command_info(string buffer, std::vector<ClientInfo> clients,  ClientInfo ite);
-void	command_message(string buffer, std::vector<ClientInfo> clients, ClientInfo ite);
+void	command_info(string buffer, std::vector<ClientInfo> clients,  ClientInfo &ite);
+void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite);
+void	search_command(std::vector<ClientInfo> clients, ClientInfo ite);
 
 
 #endif

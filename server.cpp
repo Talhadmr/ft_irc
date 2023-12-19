@@ -106,7 +106,10 @@ void Server::serving() {
                     if(flag == 1)
                         command_info(buffer, clients, *it);
                     else
+                    {
                         command_message(buffer, clients, *it);
+                        search_command(clients, *it);
+                    }
                     flag = 0;
                     //std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
                     ++it;
