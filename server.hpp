@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #include <unistd.h>
+#include "command.hpp"
 #include <arpa/inet.h>
 
 using std::string;
@@ -50,7 +51,7 @@ class ClientInfo
     ClientInfo(int fd, sockaddr_in addr);
 };
 void	command_info(string buffer, std::vector<ClientInfo> clients,  ClientInfo ite);
-void	command_message(string buffer, std::vector<ClientInfo> clients);
+void	command_message(string buffer, std::vector<ClientInfo> clients, ClientInfo ite);
 
 
 #endif

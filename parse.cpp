@@ -1,5 +1,6 @@
 
 #include "server.hpp"
+#include "RPL.hpp"
 
 void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo ite)
 {
@@ -11,10 +12,6 @@ void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo ite)
 	name.push_back(buffer.substr(index + 1, indexx - index));
 	name.push_back(buffer.substr(indexx + 1, buffer.length() - 2));
 	std::vector<string>::iterator k = name.begin();
-	//while (k != name.end())
-	//{
-	//	std::cout << *k++;
-	//}
 	k = name.begin();
 	i = 0;
 	index = k->find(':',i);
@@ -33,7 +30,7 @@ void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo ite)
 	 cout << ite.get_username() << endl;
 }
 
-void	command_message(string buffer,std::vector<ClientInfo> clients)
+void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo ite)
 {
 	int a = buffer.length() - 2;
 	string temp = buffer.substr(0,a);
@@ -83,4 +80,7 @@ void	command_message(string buffer,std::vector<ClientInfo> clients)
 	string argumant2 = temp.substr(indexx + 1, temp.length());
 	cout << "1 Arguman:" << argumant1 << endl;
 	cout << "2 Arguman:" << argumant2 << endl;
+	cout << temp << endl;
+	ite.
+	PASS(clients, ite);
 }
