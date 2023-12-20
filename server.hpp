@@ -7,6 +7,7 @@
 #include <vector>
 #include <unistd.h>
 #include "command.hpp"
+#include "Client.hpp"
 #include <arpa/inet.h>
 
 using std::string;
@@ -25,37 +26,9 @@ class Server
         void serving();
 };
 
-class ClientInfo
-{
-    private:
-        string password;
-        string username;
-        string nickname;
-        string realname;
-
-    public:
-        string command;
-        string argumant1;
-        string argumant2;
-        int socket_fd;
-        sockaddr_in address;
-        string get_password();
-        string get_username();
-        string get_nickname();
-        string get_realname();
-
-        void set_password(string pass);
-        void set_username(string user);
-        void set_nickname(string nick);
-        void set_realname(string real);
-
-        // İhtiyaç duyulan diğer bilgileri ekleyebilirsiniz.
-
-    ClientInfo(int fd, sockaddr_in addr);
-};
 void	command_info(string buffer, std::vector<ClientInfo> clients,  ClientInfo &ite);
 void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite);
-void	search_command(std::vector<ClientInfo> clients, ClientInfo ite);
+void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite);
 
 
 #endif

@@ -4,7 +4,7 @@ FLAGS = -Wall -Werror -Wextra -std=c++98
 
 NAME = server
 
-SRC = main.cpp server.cpp parse.cpp command.cpp
+SRC = main.cpp server.cpp parse.cpp command.cpp Client.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

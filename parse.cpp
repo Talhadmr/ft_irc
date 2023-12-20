@@ -16,7 +16,7 @@ void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite
 	i = 0;
 	index = k->find(':',i);
 
-	
+
 	ite.set_password(k->substr(index + 1, k++->length() - 2));
 
 	 cout << ite.get_password();
@@ -44,7 +44,6 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 	int index = temp.find(' ', 0);
 	if (index != -1)
 	{
-
 		ite.command = temp.substr(0, index);
 	}
 	else
@@ -92,7 +91,7 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 	}
 }
 
-void	search_command(std::vector<ClientInfo> clients, ClientInfo ite)
+void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite)
 {
 	if (ite.command == "PASS")
 		PASS(clients, ite);
