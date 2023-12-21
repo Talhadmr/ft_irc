@@ -12,6 +12,12 @@ Server::Server(char *str) {
     _socket = socket(AF_INET, SOCK_STREAM, 0);
     _port = atoi(str);
 
+    if(!(_port > 0 && _port < 65537))
+    {
+        std::cerr << "port has to be betwen 0 and 65537\n";
+        exit(1);
+    }
+
     if (_socket < 0)
     {
         std::cerr << "sock error\n";

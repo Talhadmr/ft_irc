@@ -22,6 +22,7 @@ class Server
         int _bin;
         int _lis;
         int _port;
+        std::string _pass;
         Server(char *str);
         void serving();
 };
