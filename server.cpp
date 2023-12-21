@@ -117,8 +117,6 @@ void Server::serving() {
                     else
                     {
                         command_message(buffer, clients, *it);
-                        cout << buffer << endl;
-                        cout <<"arguman1:" <<it->argumant1 << endl;
                         search_command(clients, *it);
                         it->command.clear();
                         it->argumant1.clear();

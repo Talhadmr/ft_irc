@@ -51,12 +51,13 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 
 		return ;
 	}
-	if (!isalpha(temp[index + 1]) && !isdigit(temp[index + 1]))
-	{
-		cout << "You must enter the argument of the command!" << endl;
-		temp.clear();
-		return ;
-	}
+	//if (!isalpha(temp[index + 1]) && !isdigit(temp[index + 1]))
+	//{
+	//	cout << "selam"	<< endl;
+	//	cout << "You must enter the argument of the command!" << endl;
+	//	temp.clear();
+	//	return ;
+	//}
 	int indexx = temp.find(' ', index + 1);
 	int flag = 0;
 	string argumant1;
@@ -106,7 +107,7 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite)
 {
 	if (ite.command == "PASS")
 		PASS(clients, ite);
-	else if(ite.command == "JOIN")
+	else if(ite.command == "JOIN" && !ite.argumant1.empty())
 		JOIN(clients, ite);
 	else if (ite.command == "PING")
 		PING(clients, ite);
