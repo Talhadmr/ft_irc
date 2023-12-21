@@ -40,3 +40,8 @@ string  ClientInfo::get_realname()
 {
     return realname;
 }
+
+string ClientInfo::getPrefix()
+{
+    return ":" + this->get_nickname() + "!" + this->get_username() + "@" + "k1m02s05.42istanbul.com.tr" + ":";
+}

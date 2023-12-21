@@ -1,8 +1,9 @@
 
 #include "server.hpp"
 #include "RPL.hpp"
-# define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
+#include "Client.hpp"
 
+# define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
 void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite)
 {
 	int i = 0;
@@ -19,17 +20,13 @@ void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite
 
 
 	ite.set_password(k->substr(index + 1, k++->length() - 2));
-
-	 cout << ite.get_password();
 	 i = 0;
 	 index = k->find(' ',i);
-	 ite.set_nickname(k->substr(index + 1, k++->length() - 2));
-	 cout << ite.get_nickname();
+	 ite.set_nickname(k->substr(index + 1, k++->length() - (index + 3)));
 	 i = 0;
 	 index = k->find(' ',i);
 	 indexx = k->find(' ',index + 1);
-	 ite.set_username(k->substr(index + 1, indexx - index));
-	 cout << ite.get_username() << endl;
+	 ite.set_username(k->substr(index + 1, indexx - (index + 1)));
 }
 
 void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite)
@@ -49,12 +46,12 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 	}
 	else
 	{
-		cout << "You must enter the argument of the command!" << endl;
+		//cout << "You must enter the argument of the command!" << endl;
 		return ;
 	}
 	if (!isalpha(temp[index + 1]) && !isdigit(temp[index + 1]))
 	{
-		cout << "You must enter the argument of the command!" << endl;
+		//cout << "You must enter the argument of the command!" << endl;
 		return ;
 	}
 	int indexx = temp.find(' ', index + 1);
@@ -94,6 +91,11 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 
 void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite)
 {
+	string message = " JOIN You are now in channel ";
 	if (ite.command == "PASS")
 		PASS(clients, ite);
+		string buffer = ite.getPrefix() + " "  +  message + "\r\n";
+		cout << buffer.c_str() << endl;
+
+	    send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
 }

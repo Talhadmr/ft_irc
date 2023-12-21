@@ -36,6 +36,8 @@ class ClientInfo
         void set_nickname(string nick);
         void set_realname(string real);
 
+        string getPrefix();
+
         // İhtiyaç duyulan diğer bilgileri ekleyebilirsiniz.
 
     ClientInfo(int fd, sockaddr_in addr);
