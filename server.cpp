@@ -1,6 +1,9 @@
 #include "server.hpp"
+#include "Channel.hpp"
+#include "Client.hpp"
 
-ClientInfo::ClientInfo(int fd, sockaddr_in addr) : socket_fd(fd), address(addr) {}
+ClientInfo::ClientInfo(int fd, sockaddr_in addr) : socket_fd(fd), address(addr)
+{}
 
 Server::Server(char *str) {
     _socket = -1;
@@ -109,9 +112,10 @@ void Server::serving() {
                     {
                         command_message(buffer, clients, *it);
                         search_command(clients, *it);
+                        //channel(clients, *it);
+                         //std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
                     }
                     flag = 0;
-                    //std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
                     ++it;
                 }
             }

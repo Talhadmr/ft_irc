@@ -1,6 +1,7 @@
 
 #include "server.hpp"
 #include "RPL.hpp"
+# define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
 
 void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite)
 {
