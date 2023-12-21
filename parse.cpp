@@ -34,7 +34,7 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 	int a = buffer.length() - 2;
 	string temp = buffer.substr(0,a);
 	string command;
-	if (temp[0] == ' ')
+	if (temp[0] == ' ' && temp.empty())
 	{
 		cout << "space error" << endl;
 		return ;
@@ -46,12 +46,15 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 	}
 	else
 	{
-		//cout << "You must enter the argument of the command!" << endl;
+		cout << "You must enter the argument of the command!" << endl;
+		temp.clear();
+
 		return ;
 	}
 	if (!isalpha(temp[index + 1]) && !isdigit(temp[index + 1]))
 	{
-		//cout << "You must enter the argument of the command!" << endl;
+		cout << "You must enter the argument of the command!" << endl;
+		temp.clear();
 		return ;
 	}
 	int indexx = temp.find(' ', index + 1);
@@ -67,12 +70,18 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 	{
 		argumant1 = temp.substr(index + 1, indexx - index);
 		ite.argumant1 = argumant1;
+
 	}
 	if (flag == 1)
+	{
+		temp.clear();
 		return ;
+	}
 	if (!isalpha(temp[indexx + 1]) && !isdigit(temp[indexx + 1]))
 	{
 		cout << "Wrong Argumant space!" << endl;
+		temp.clear();
+
 		return ;
 	}
 	int indexxx = temp.find(' ', indexx + 1);
@@ -80,22 +89,25 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 	if (indexxx != -1)
 	{
 		cout << "Wrong 3. argumant space" << endl;
+		temp.clear();
+
 		return ;
 	}
 	else
 	{
 		argumant2 = temp.substr(indexx + 1, temp.length());
 		ite.argumant2 = argumant2;
+		temp.clear();
+
 	}
 }
 
 void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite)
 {
-	string message = " JOIN You are now in channel ";
 	if (ite.command == "PASS")
 		PASS(clients, ite);
-		string buffer = ite.getPrefix() + " "  +  message + "\r\n";
-		cout << buffer.c_str() << endl;
-
-	    send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
+	else if(ite.command == "JOIN")
+		JOIN(clients, ite);
+	else if (ite.command == "PING")
+		PING(clients, ite);
 }

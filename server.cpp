@@ -117,11 +117,17 @@ void Server::serving() {
                     else
                     {
                         command_message(buffer, clients, *it);
+                        cout << buffer << endl;
+                        cout <<"arguman1:" <<it->argumant1 << endl;
                         search_command(clients, *it);
+                        it->command.clear();
+                        it->argumant1.clear();
+                        it->argumant2.clear();
                         //channel(clients, *it);
                          //std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
                     }
                     flag = 0;
+
                     ++it;
                 }
             }
