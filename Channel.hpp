@@ -5,10 +5,12 @@
 
 #include <ostream>
 #include "Client.hpp"
+#include <vector>
 
 using std::endl;
 using std::string;
-#include <vector>
+
+class ClientInfo;
 
 class Channel
 {
@@ -16,6 +18,9 @@ class Channel
 	std::vector <ClientInfo *>users;
 	string ChannelName;
 	string getPrefix();
+	Channel(string, ClientInfo *);
+	void adduser(ClientInfo *client);
+	
 };
 
 #endif

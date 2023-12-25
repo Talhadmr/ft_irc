@@ -6,12 +6,19 @@ ClientInfo::ClientInfo(int fd, sockaddr_in addr) : socket_fd(fd), address(addr)
 {}
 
 Server::Server(char *str) {
+    char host_name[1024];
+    int herror = gethostname(host_name, 1024);
+	if (herror == -1)
+    {
+        cout << "Host Error" << endl;
+		exit(1);
+    }
+	this->hostname = host_name;
     _socket = -1;
     _bin = -1;
     _lis = -1;
     _socket = socket(AF_INET, SOCK_STREAM, 0);
     _port = atoi(str);
-
     if(!(_port > 0 && _port < 65537))
     {
         std::cerr << "port has to be betwen 0 and 65537\n";
@@ -117,10 +124,7 @@ void Server::serving() {
                     else
                     {
                         command_message(buffer, clients, *it);
-                        search_command(clients, *it);
-                        it->command.clear();
-                        it->argumant1.clear();
-                        it->argumant2.clear();
+                        search_command(clients, *it, *this, this->channels);
                         //channel(clients, *it);
                          //std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
                     }

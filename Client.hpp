@@ -21,15 +21,13 @@ class ClientInfo
         string realname;
 
     public:
-        string command;
-        string argumant1;
-        string argumant2;
         int socket_fd;
         sockaddr_in address;
         string get_password();
         string get_username();
         string get_nickname();
         string get_realname();
+        std::vector <std::string> commands; 
 
         void set_password(string pass);
         void set_username(string user);

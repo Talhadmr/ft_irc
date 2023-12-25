@@ -33,82 +33,60 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 {
 	int a = buffer.length() - 2;
 	string temp = buffer.substr(0,a);
-	string command;
-	if (temp[0] == ' ' && temp.empty())
+	int index;
+	int flag;
+	for(int i = 0; i < a; i++)
 	{
-		cout << "space error" << endl;
-		return ;
+		flag = 0;
+		while (temp[i] == ' ' && i < a)
+			i++;
+		if (i < a)
+			index = i;
+		while (temp[i] != ' ' && i < a)
+		{
+			flag = 1;
+			i++;
+		}
+		if (flag == 1)
+			ite.commands.push_back(temp.substr(index, i - index));
 	}
-	int index = temp.find(' ', 0);
-	if (index != -1)
-	{
-		ite.command = temp.substr(0, index);
-	}
-	else
-	{
-		cout << "You must enter the argument of the command!" << endl;
-		temp.clear();
+	// std::vector<std::string>::iterator kk = ite.commands.begin();
+	// while (kk != ite.commands.end())
+	// 	cout << "COMMANDS::: " << *kk++ << endl;
+ }
 
-		return ;
-	}
-	//if (!isalpha(temp[index + 1]) && !isdigit(temp[index + 1]))
-	//{
-	//	cout << "selam"	<< endl;
-	//	cout << "You must enter the argument of the command!" << endl;
-	//	temp.clear();
-	//	return ;
-	//}
-	int indexx = temp.find(' ', index + 1);
-	int flag = 0;
-	string argumant1;
-	if (indexx == -1)
-	{
-		flag = 1;
-		argumant1 = temp.substr(index + 1, indexx - index);
-		ite.argumant1 = argumant1;
-	}
-	else
-	{
-		argumant1 = temp.substr(index + 1, indexx - index);
-		ite.argumant1 = argumant1;
-
-	}
-	if (flag == 1)
-	{
-		temp.clear();
-		return ;
-	}
-	if (!isalpha(temp[indexx + 1]) && !isdigit(temp[indexx + 1]))
-	{
-		cout << "Wrong Argumant space!" << endl;
-		temp.clear();
-
-		return ;
-	}
-	int indexxx = temp.find(' ', indexx + 1);
-	string argumant2;
-	if (indexxx != -1)
-	{
-		cout << "Wrong 3. argumant space" << endl;
-		temp.clear();
-
-		return ;
-	}
-	else
-	{
-		argumant2 = temp.substr(indexx + 1, temp.length());
-		ite.argumant2 = argumant2;
-		temp.clear();
-
-	}
-}
-
-void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite)
+void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> channels)
 {
-	if (ite.command == "PASS")
-		PASS(clients, ite);
-	else if(ite.command == "JOIN" && !ite.argumant1.empty())
-		JOIN(clients, ite);
-	else if (ite.command == "PING")
-		PING(clients, ite);
+	std::vector<std::string>::iterator k = ite.commands.begin();
+	std::string error;
+	if (*k == "PASS")
+		PASS(clients, ite, server);
+	else if(*k == "JOIN")
+		JOIN(clients, ite, server, channels);
+	else if (*k == "PING")
+		PING(clients, ite, server);
+	else if (*k == "WHO")
+	{
+		if (ite.commands.size() == 1)
+		{
+			error = ERR_NEEDMOREPARAMS("WHO");
+			send(ite.socket_fd, error.c_str() , error.size(), 0);
+		}
+		else
+			WHO(clients,ite, server);
+	}
+	else if (*k == "NICK")
+	{
+		if (ite.commands.size() == 1)
+		{
+			error = ERR_NONICKNAMEGIVEN();
+			send(ite.socket_fd, error.c_str() , error.size(), 0);
+		}
+		else
+			NICK(clients, ite, server, channels);	
+	}
+	for (std::vector<std::string>::iterator it = ite.commands.begin(); it != ite.commands.end(); ++it) {
+            it->clear();
+    }
+    ite.commands.erase(std::remove(ite.commands.begin(), ite.commands.end(), ""), ite.commands.end());
 }
