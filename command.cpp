@@ -20,12 +20,18 @@ int	PING(std::vector<ClientInfo> clients, ClientInfo ite, Server &server)
 	send(ite.socket_fd, name.c_str() , name.size(), 0);
 	return (1);
 }
+
 void sendmessage(std::vector<ClientInfo> clients, ClientInfo &ite, string message, Channel channel)
 {
 	string buffer = ite.getPrefix() + " "  +  message + channel.ChannelName + "\r\n";;
 	send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
 }
 
+void sendmessage_for_topic(std::vector<ClientInfo> clients, ClientInfo &ite, string message)
+{
+	string buffer = ite.getPrefix() + " "  +  message + "\r\n";;
+	send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
+}
 
 void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
@@ -101,4 +107,35 @@ void	NICK(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::
 	std::string buffer = ":" + c->get_nickname() + "!" + c->get_username() + "@" + server.hostname + ": " + "NICK Requesting the new nick " + c->get_nickname() + "\r\n";
 	if (send(ite.socket_fd, buffer.c_str(), buffer.size(), 0) < 0)
 		cout << "SEND ERROR" << endl;
+}
+
+void TOPIC(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
+{
+	std::vector<std::string>::iterator k = ite.commands.begin();
+	k++;
+	for (std::vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
+	{
+		if(itChannels->ChannelName == *k)
+		{
+			if (k[1][0] == ':')
+			{
+				itChannels->setTopic(k[1]);
+				std::cout << "TOPIC: " << itChannels->topic << std::endl;
+				sendmessage_for_topic(clients, ite, RPL_TOPIC(ite.get_nickname(), itChannels->ChannelName, itChannels->getTopic()));
+				return ;
+			}
+			else
+			{
+				string buffer = RPL_NOTOPIC(ite.get_nickname(), itChannels->ChannelName);
+				sendmessage_for_topic(clients, ite, RPL_NOTOPIC(ite.get_nickname(), itChannels->ChannelName));
+				return ;
+			}
+		}
+	}
+}
+
+void CAP(std::vector<ClientInfo> clients, ClientInfo ite, Server &server)
+{
+	string buffer = ite.getPrefix() + " "  +  " CAP * LS :multi-refix sasl" + "\r\n";
+    send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
 }

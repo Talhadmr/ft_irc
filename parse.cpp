@@ -55,9 +55,10 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 	// 	cout << "COMMANDS::: " << *kk++ << endl;
  }
 
-void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> channels)
+void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
 	std::vector<std::string>::iterator k = ite.commands.begin();
+	//cout <<"*kkkkk:::::" <<*k << endl;
 	std::string error;
 	if (*k == "PASS")
 		PASS(clients, ite, server);
@@ -65,6 +66,10 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 		JOIN(clients, ite, server, channels);
 	else if (*k == "PING")
 		PING(clients, ite, server);
+	else if (*k == "TOPIC")
+		TOPIC(clients, ite, server, channels);
+	else if(*k == "CAP")
+		CAP(clients, ite, server);
 	else if (*k == "WHO")
 	{
 		if (ite.commands.size() == 1)

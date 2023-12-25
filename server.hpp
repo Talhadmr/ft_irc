@@ -35,7 +35,7 @@ class Server
 
 void	command_info(string buffer, std::vector<ClientInfo> clients,  ClientInfo &ite);
 void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite);
-void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> channels);
+void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
 
 
 #endif

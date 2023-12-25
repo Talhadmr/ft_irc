@@ -25,8 +25,10 @@ using std::string;
 void	PASS(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 int		PING(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
-void 	send_message(std::vector<ClientInfo> clients, ClientInfo &ite,string message);
+void    sendmessage(std::vector<ClientInfo> clients, ClientInfo &ite, string message, Channel channel);
 void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void	NICK(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> channels);
+void    TOPIC(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
+void    CAP(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 
 #endif
