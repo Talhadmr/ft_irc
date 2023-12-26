@@ -55,7 +55,7 @@ void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &i
 	// 	cout << "COMMANDS::: " << *kk++ << endl;
  }
 
-void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> channels)
+void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
 	std::vector<std::string>::iterator k = ite.commands.begin();
 	std::string error;
@@ -65,6 +65,8 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 		JOIN(clients, ite, server, channels);
 	else if (*k == "PING")
 		PING(clients, ite, server);
+	//else if(*k == "PRIVMSG")
+	//	PRIVMSG(clients, ite, channels);
 	else if (*k == "WHO")
 	{
 		if (ite.commands.size() == 1)
@@ -83,7 +85,7 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 			send(ite.socket_fd, error.c_str() , error.size(), 0);
 		}
 		else
-			NICK(clients, ite, server, channels);	
+			NICK(clients, ite, server, channels);
 	}
 	for (std::vector<std::string>::iterator it = ite.commands.begin(); it != ite.commands.end(); ++it) {
             it->clear();

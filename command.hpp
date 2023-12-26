@@ -14,6 +14,7 @@
 #include "server.hpp"
 #include <iostream>
 #include "Channel.hpp"
+
 class ClientInfo;
 class Server;
 class Channel;
@@ -25,8 +26,11 @@ using std::string;
 void	PASS(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 int		PING(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
-void 	send_message(std::vector<ClientInfo> clients, ClientInfo &ite,string message);
+void 	sendmessage(std::vector<ClientInfo> clients, ClientInfo &ite, string message, Channel channel);
 void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void	NICK(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> channels);
+void	PRIVMSG(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Channel> &channel);
+void	JOIN_info(std::vector<ClientInfo> clients, ClientInfo &ite, Channel &channels);
+void sendmessage_join(std::vector<ClientInfo> clients, ClientInfo ite, string message, Channel channel);
 
 #endif

@@ -3,8 +3,10 @@
 #include "command.hpp"
 #include "server.hpp"
 #include "Channel.hpp"
-
+# define RPL_PRIVMSG(nick, username, target, message) (":" + nick + "!" + username + "@localhost PRIVMSG " + target + " " + message + "\r\n")
 # define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
+#define RPL_NAMREPLY(nickname, channel, nicknames) "353 " + nickname + " = " + channel + " :" + nicknames + "\r\n"
+#define RPL_ENDOFNAMES(nickname, channel) "366 " + nickname + " " + channel + " :End of /NAMES list" + "\r\n"
 
 void	PASS(std::vector<ClientInfo> clients, ClientInfo ite, Server &server)
 {
@@ -26,12 +28,42 @@ void sendmessage(std::vector<ClientInfo> clients, ClientInfo &ite, string messag
 	send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
 }
 
+void sendmessage_join(std::vector<ClientInfo> clients, ClientInfo *ite, string message, Channel channel)
+{
+	string buffer = ite->getPrefix() + " "  +  message + channel.ChannelName + "\r\n";;
+	send(ite->socket_fd, buffer.c_str(), buffer.size(), 0);
+}
+
+void	JOIN_info(std::vector<ClientInfo> clients, ClientInfo &ite, Channel &channels)
+{
+	string names;
+	std::vector <ClientInfo *> a= channels.users;
+	std::vector <ClientInfo *> b= channels.admin;
+	for(std::vector <ClientInfo *>::iterator itera = a.begin() ; itera != a.end(); itera++)
+	{
+		if(itera == a.begin())
+		{
+			names = "@";
+			names += (*itera)->get_nickname();
+		}
+		else
+		{
+			names += " ";
+			names += (*itera)->get_nickname();
+		}
+	}
+	cout << "names::" << names << endl;
+	for(std::vector <ClientInfo *>::iterator itera = a.begin() ; itera != a.end(); itera++)
+	{
+		sendmessage_join(clients, (*itera), RPL_NAMREPLY((*itera)->get_nickname(), channels.ChannelName, names), channels);
+	}
+}
 
 void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
 	std::vector<std::string>::iterator k = ite.commands.begin();
 	*k++;
-	cout <<"join::::" <<k[0][0] << endl;
+	cout << ite.get_nickname() << endl;
 	if(k[0][0] == '#')
 	{
 		for (std::vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
@@ -40,14 +72,19 @@ void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std:
 			{
 				ClientInfo *userPtr1 = &ite;
 				itChannels->adduser(userPtr1);
+				ite.isjoined.push_back(*itChannels);
 				sendmessage(clients, ite, "JOIN You are now in channel ", (*itChannels));
+				JOIN_info(clients, ite, *itChannels);
 				return ;
 			}
 		}
+		int i = 1;
 		ClientInfo *userPtr = &ite;
-		Channel newChannel = Channel((*k), userPtr);
+		Channel newChannel = Channel((*k), userPtr, userPtr);
+		ite.isjoined.push_back(newChannel);
 		channels.push_back(newChannel);
 		sendmessage(clients, ite, "JOIN You are now in channel ", newChannel);
+		JOIN_info(clients, ite, newChannel);
 	}
 }
 
@@ -101,4 +138,17 @@ void	NICK(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::
 	std::string buffer = ":" + c->get_nickname() + "!" + c->get_username() + "@" + server.hostname + ": " + "NICK Requesting the new nick " + c->get_nickname() + "\r\n";
 	if (send(ite.socket_fd, buffer.c_str(), buffer.size(), 0) < 0)
 		cout << "SEND ERROR" << endl;
+}
+void	PRIVMSG(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Channel> &channel)
+{
+	std::vector<string>::iterator itArgs = ite.commands.begin();
+
+	string message = "PRIVMSG " + *(ite.commands.begin() + 1) + " "+ *(ite.commands.begin() + 2);
+	cout <<"komut::" << itArgs[1] << endl;
+	for(std::vector<Channel>::iterator itChannels = channel.begin(); itChannels != channel.end(); itChannels++)
+	{
+		//if(itChannels->checkuser(&ite) == 1)
+		//{
+		//}
+	}
 }
