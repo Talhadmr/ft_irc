@@ -67,9 +67,13 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 	else if (*k == "PING")
 		PING(clients, ite, server);
 	else if (*k == "TOPIC")
+	{	
 		TOPIC(clients, ite, server, channels);
+	}
 	else if(*k == "CAP")
 		CAP(clients, ite, server);
+	else if(*k == "MODE")
+		MODE(clients, ite, server, channels);
 	else if (*k == "WHO")
 	{
 		if (ite.commands.size() == 1)

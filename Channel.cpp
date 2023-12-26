@@ -4,6 +4,7 @@
 
 Channel::Channel(string name, ClientInfo *user)
 {
+    this->isTopic = false;
     this->topic = "";
     this->ChannelName = name;
     users.push_back(user);

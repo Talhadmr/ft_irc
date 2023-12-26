@@ -30,5 +30,7 @@ void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void	NICK(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> channels);
 void    TOPIC(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
 void    CAP(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
+void    MODE(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> channels);
+void    sendmessage_for_topic(std::vector<ClientInfo> clients, ClientInfo &ite, string message);
 
 #endif

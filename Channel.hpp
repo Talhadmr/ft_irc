@@ -16,6 +16,7 @@ class Channel
 {
 	public:
 	std::vector <ClientInfo *>users;
+	bool isTopic;
 	string topic;
 	string ChannelName;
 	string getPrefix();
