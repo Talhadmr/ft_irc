@@ -22,11 +22,13 @@ int	PING(std::vector<ClientInfo> clients, ClientInfo ite, Server &server)
 	send(ite.socket_fd, name.c_str() , name.size(), 0);
 	return (1);
 }
+
 void sendmessage(std::vector<ClientInfo> clients, ClientInfo &ite, string message, Channel channel)
 {
 	string buffer = ite.getPrefix() + " "  +  message + channel.ChannelName + "\r\n";;
 	send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
 }
+
 
 void sendmessage_join(std::vector<ClientInfo> clients, ClientInfo *ite, string message, Channel channel)
 {
@@ -59,6 +61,12 @@ void	JOIN_info(std::vector<ClientInfo> clients, ClientInfo &ite, Channel &channe
 	}
 }
 
+void sendmessage_for_topic(std::vector<ClientInfo> clients, ClientInfo &ite, string message)
+{
+	string buffer = ite.getPrefix() + " "  +  message + "\r\n";;
+	send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
+}
+
 void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
 	std::vector<std::string>::iterator k = ite.commands.begin();
@@ -83,6 +91,7 @@ void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std:
 		Channel newChannel = Channel((*k), userPtr, userPtr);
 		ite.isjoined.push_back(newChannel);
 		channels.push_back(newChannel);
+
 		sendmessage(clients, ite, "JOIN You are now in channel ", newChannel);
 		JOIN_info(clients, ite, newChannel);
 	}
@@ -139,6 +148,7 @@ void	NICK(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::
 	if (send(ite.socket_fd, buffer.c_str(), buffer.size(), 0) < 0)
 		cout << "SEND ERROR" << endl;
 }
+
 void	PRIVMSG(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Channel> &channel)
 {
 	std::vector<string>::iterator itArgs = ite.commands.begin();
@@ -152,3 +162,64 @@ void	PRIVMSG(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Chan
 		//}
 	}
 }
+
+
+void TOPIC(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
+{
+	std::vector<std::string>::iterator k = ite.commands.begin();
+	k++;
+	for (std::vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
+	{
+		if(itChannels->ChannelName == *k)
+		{
+			if (k[1][0] == ':')
+			{
+				itChannels->isTopic = true;
+				itChannels->setTopic(k[1]);
+				std::cout << "TOPIC: " << itChannels->topic << std::endl;
+				sendmessage_for_topic(clients, ite, RPL_TOPIC(ite.get_nickname(), itChannels->ChannelName, itChannels->getTopic()));
+				return ;
+			}
+			else
+			{
+				string buffer = RPL_NOTOPIC(ite.get_nickname(), itChannels->ChannelName);
+				sendmessage_for_topic(clients, ite, RPL_NOTOPIC(ite.get_nickname(), itChannels->ChannelName));
+				return ;
+			}
+		}
+	}
+}
+
+void CAP(std::vector<ClientInfo> clients, ClientInfo ite, Server &server)
+{
+	string buffer = ite.getPrefix() + " "  +  " CAP * LS :multi-refix sasl" + "\r\n";
+    send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
+}
+
+void MODE(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> channels)
+{
+	std::vector<std::string>::iterator k = ite.commands.begin();
+
+	std::cout << "modus\n";
+	if(k[2] == "+o")
+	{
+		for (std::vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
+		{
+			std::cout << "+o is working\n" << std::endl;
+			sendmessage(clients, ite, "Mode " + itChannels->ChannelName + " +o " + k[3], (*itChannels));
+		}
+
+		// std::cout << "MODE: " << *k << std::endl;
+		// string buffer = ite.getPrefix() + " "  +  " MODE " + k[1] + " +o " + k[3] + "\r\n";
+		// send(ite.socket_fd, buffer.c_str(), buffer.size(), 0);
+	}
+	else if(k[2] == "-o")
+	{
+		for (std::vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
+		{
+			std::cout << "-o is working\n" << std::endl;
+			sendmessage(clients, ite, "Mode " + itChannels->ChannelName + " -o " + k[3], (*itChannels));
+		}
+	}
+}
+
