@@ -31,14 +31,10 @@ void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void	NICK(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> channels);
 void	PRIVMSG(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Channel> &channel);
 void	JOIN_info(std::vector<ClientInfo> clients, ClientInfo &ite, Channel &channels);
-void sendmessage_join(std::vector<ClientInfo> clients, ClientInfo ite, string message, Channel channel);
-void    sendmessage(std::vector<ClientInfo> clients, ClientInfo &ite, string message, Channel channel);
-void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
-void	NICK(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> channels);
+void    sendmessage_join(std::vector<ClientInfo> clients, ClientInfo ite, string message, Channel channel);
 void    TOPIC(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
 void    CAP(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void    MODE(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> channels);
 void    sendmessage_for_topic(std::vector<ClientInfo> clients, ClientInfo &ite, string message);
-
 
 #endif

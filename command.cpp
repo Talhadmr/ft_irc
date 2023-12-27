@@ -206,7 +206,8 @@ void MODE(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::
 		for (std::vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
 		{
 			std::cout << "+o is working\n" << std::endl;
-			sendmessage(clients, ite, "Mode " + itChannels->ChannelName + " +o " + k[3], (*itChannels));
+			//"Mode " + itChannels->ChannelName + " +o " + k[3] + "\r\n"
+			sendmessage(clients, ite, "Mode " + itChannels->ChannelName + " +o " + k[3] + "", (*itChannels));
 		}
 
 		// std::cout << "MODE: " << *k << std::endl;
