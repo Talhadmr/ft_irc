@@ -10,7 +10,6 @@ void	PART2(std::vector<ClientInfo> clients, std::vector <ClientInfo *>::iterator
 
 void PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
-	cout << "oemdfişkamsdfişkasdşiflkasdşfklasdifkas,şdfokasd,oifkasdğ,ofkj"<< endl;
     std::vector<std::string>::iterator k = ite.commands.begin();
     std::vector<Channel>::iterator a = ite.isjoined.begin();
 	//std::vector<Channel>::iterator b = channels.begin();
