@@ -41,5 +41,4 @@ void	PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std:
 void	PART2(std::vector<ClientInfo> clients, ClientInfo *ite, Server &server, std::vector <Channel> &channels);
 void    USER(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
 
-
 #endif
