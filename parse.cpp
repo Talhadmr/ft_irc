@@ -72,8 +72,8 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 		PING(clients, ite, server);
 	else if(*k == "PART")
 		PART(clients, ite, server, channels);
-	//else if(*k == "PRIVMSG")
-	//	PRIVMSG(clients, ite, channels);
+	else if(*k == "PRIVMSG")
+		PRIVMSG(clients, ite, channels);
 	else if (*k == "TOPIC")
 	{
 		TOPIC(clients, ite, server, channels);

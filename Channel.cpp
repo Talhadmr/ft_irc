@@ -15,17 +15,6 @@ void Channel::adduser(ClientInfo *client)
     this->users.push_back(client);
 }
 
-
-int Channel::checkuser(ClientInfo *client)
-{
-    for(std::vector<ClientInfo *>::iterator it = users.begin(); it != users.end(); ++it)
-    {
-        if((*it)->get_nickname() == client->get_nickname())
-            return 1;
-    }
-    return 0;
-}
-
 string Channel::getTopic()
 {
     return this->topic;
