@@ -40,5 +40,6 @@ void    sendmessage_for_topic(std::vector<ClientInfo> clients, ClientInfo &ite, 
 void	PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
 void	PART2(std::vector<ClientInfo> clients, ClientInfo *ite, Server &server, std::vector <Channel> &channels);
 void    USER(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
+std::vector<std::string>    user_helper(ClientInfo &ite);
 
 #endif
