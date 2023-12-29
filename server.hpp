@@ -25,6 +25,7 @@ class Server
         int _bin;
         int _lis;
         int _port;
+        int flag;
         std::string _pass;
         Server(char *str);
         std::vector <Channel> channels;

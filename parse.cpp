@@ -29,36 +29,40 @@ void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite
 	 ite.set_username(k->substr(index + 1, indexx - (index + 1)));
 }
 
-void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite)
+void    command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite)
 {
-	int a = buffer.length() - 2;
-	string temp = buffer.substr(0,a);
-	int index;
-	int flag;
-	for(int i = 0; i < a; i++)
-	{
-		flag = 0;
-		while (temp[i] == ' ' && i < a)
-			i++;
-		if (i < a)
-			index = i;
-		while (temp[i] != ' ' && i < a)
-		{
-			flag = 1;
-			i++;
-		}
-		if (flag == 1)
-			ite.commands.push_back(temp.substr(index, i - index));
-	}
-	// std::vector<std::string>::iterator kk = ite.commands.begin();
-	// while (kk != ite.commands.end())
-	// 	cout << "COMMANDS::: " << *kk++ << endl;
+    int a;
+    if (buffer[buffer.length() - 2] == '\r')
+        a = buffer.length() - 2;
+    else
+        a = buffer.length() - 1;
+    string temp = buffer.substr(0,a);
+    int index;
+    int flag;
+    for(int i = 0; i < a; i++)
+    {
+        flag = 0;
+        while (temp[i] == ' ' && i < a)
+            i++;
+        if (i < a)
+            index = i;
+        while (temp[i] != ' ' && i < a)
+        {
+            flag = 1;
+            i++;
+        }
+        if (flag == 1)
+            ite.commands.push_back(temp.substr(index, i - index));
+    }
+    // std::vector<std::string>::iterator kk = ite.commands.begin();
+    // while (kk != ite.commands.end())
+    //  cout << "COMMANDS::: " << *kk++ << endl;
  }
 
 void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
 	std::vector<std::string>::iterator k = ite.commands.begin();
-	//cout <<"*kkkkk:::::" <<*k << endl;
+	cout <<"*k:" <<*k << endl;
 	std::string error;
 	if (*k == "PASS")
 		PASS(clients, ite, server);
@@ -66,7 +70,8 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 		JOIN(clients, ite, server, channels);
 	else if (*k == "PING")
 		PING(clients, ite, server);
-
+	else if(*k == "PART")
+		PART(clients, ite, server, channels);
 	//else if(*k == "PRIVMSG")
 	//	PRIVMSG(clients, ite, channels);
 	else if (*k == "TOPIC")
@@ -85,7 +90,7 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 			send(ite.socket_fd, error.c_str() , error.size(), 0);
 		}
 		else
-			WHO(clients,ite, server);
+			WHO(clients,ite, server, channels);
 	}
 	else if (*k == "NICK")
 	{
@@ -99,6 +104,6 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 	}
 	for (std::vector<std::string>::iterator it = ite.commands.begin(); it != ite.commands.end(); ++it) {
             it->clear();
-    }
+	}
     ite.commands.erase(std::remove(ite.commands.begin(), ite.commands.end(), ""), ite.commands.end());
 }
