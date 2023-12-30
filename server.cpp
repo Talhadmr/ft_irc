@@ -120,7 +120,10 @@ void Server::serving() {
                 {
                     buffer[bytes_received] = '\0';
                     if(flag == 1)
+                    {
                         command_info(buffer, clients, *it);
+                        PASS(*it, *this);
+                    }
                     else
                     {
                         cout << "COMMANDS::: " << buffer << endl;

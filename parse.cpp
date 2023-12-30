@@ -2,6 +2,7 @@
 #include "server.hpp"
 #include "RPL.hpp"
 #include "Client.hpp"
+#include "command.hpp"
 
 # define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
 void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite) // parse dan gelen realname kontrol et
@@ -20,13 +21,13 @@ void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite
 
 
 	ite.set_password(k->substr(index + 1, k++->length() - 2));
-	 i = 0;
-	 index = k->find(' ',i);
-	 ite.set_nickname(k->substr(index + 1, k++->length() - (index + 3)));
-	 i = 0;
-	 index = k->find(' ',i);
-	 indexx = k->find(' ',index + 1);
-	 ite.set_username(k->substr(index + 1, indexx - (index + 1)));
+	i = 0;
+	index = k->find(' ',i);
+	ite.set_nickname(k->substr(index + 1, k++->length() - (index + 3)));
+	i = 0;
+	index = k->find(' ',i);
+	indexx = k->find(' ',index + 1);
+	ite.set_username(k->substr(index + 1, indexx - (index + 1)));
 }
 
 void    command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite)
@@ -61,9 +62,7 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 	std::vector<std::string>::iterator k = ite.commands.begin();
 	cout <<"*k:" <<*k << endl;
 	std::string error;
-	if (*k == "PASS")
-		PASS(clients, ite, server);
-	else if(*k == "JOIN")
+	if(*k == "JOIN")
 		JOIN(clients, ite, server, channels);
 	else if (*k == "PING")
 		PING(clients, ite, server);
