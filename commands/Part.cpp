@@ -4,7 +4,8 @@
 
 void	PART2(std::vector<ClientInfo> clients, std::vector <ClientInfo *>::iterator itera, Server &server, Channel &channels)
 {
-		sendmessage_join(clients, (*itera), "PART #A :No boundaries on the net!\r\n", channels);
+	string temp = channels.ChannelName;
+		sendmessage_join(clients, (*itera), "PART " + temp + " :No boundaries on the net!\r\n", channels);
 }
 
 
@@ -33,12 +34,23 @@ void PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std:
 							break ;
 						}
 					}
-					//else
-					//	if ((*users1)->get_nickname() == ite.get_nickname())
-					//	{
-					//		itChannels->users.clear();
-					//		break;
-					//	}
+					else
+					{
+						if ((*users1)->get_nickname() == ite.get_nickname() && (++users1) != itChannels->users.end())
+						{
+							PART2(clients, users1, server, *itChannels);
+							users1 = itChannels->users.erase(users1);
+							JOIN_info(clients, ite, *itChannels);
+							break ;
+						}
+						else
+						{
+							PART2(clients, users1, server, *itChannels);
+							itChannels->users.clear();
+							JOIN_info(clients, ite, *itChannels);
+							break;
+						}
+					}
 				}
 			}
 		}

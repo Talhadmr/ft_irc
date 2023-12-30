@@ -4,7 +4,7 @@
 #include "Client.hpp"
 
 # define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
-void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite) // parse dan gelen realname kontrol et
+void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite)
 {
 	int i = 0;
 	std::vector <string> name;
@@ -27,6 +27,7 @@ void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite
 	 index = k->find(' ',i);
 	 indexx = k->find(' ',index + 1);
 	 ite.set_username(k->substr(index + 1, indexx - (index + 1)));
+	 ite.set_realname(k->substr(index + 1, indexx - (index + 1)));
 }
 
 void    command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite)
@@ -69,16 +70,12 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 		PING(clients, ite, server);
 	else if(*k == "PART")
 		PART(clients, ite, server, channels);
-
 	else if(*k == "PRIVMSG")
 		PRIVMSG(clients, ite, channels);
 	else if(*k == "USER")
 		USER(clients, ite, server, channels);
-
 	else if (*k == "TOPIC")
-	{
 		TOPIC(clients, ite, server, channels);
-	}
 	else if(*k == "CAP")
 		CAP(clients, ite, server);
 	else if(*k == "MODE")
