@@ -7,9 +7,10 @@ void	PASS(ClientInfo ite, Server &server)
 {
 	string pass;
 	pass = server._pass;
-	cout << "pass:" << pass.length() << endl;
-	cout << "ite pass:" << ite.get_password().length() << endl;
-	if(pass == ite.get_password())
+	string password = ite.get_password();
+	password = password.substr(0, password.length() - 2);
+
+	if(pass == password)
 	{
 		cout << "password correct" << endl;
 		string name = RPL_WELCOME(ite.get_nickname(),ite.get_username());
