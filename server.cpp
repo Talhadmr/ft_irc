@@ -126,7 +126,6 @@ void Server::serving() {
                     }
                     else
                     {
-                        cout << "COMMANDS::: " << buffer << endl;
                         command_message(buffer, clients, *it);
                         search_command(clients, *it, *this, this->channels);
                         //channel(clients, *it);
