@@ -23,9 +23,8 @@ class Channel;
 using std::cout;
 using std::string;
 
-
 void	PASS(ClientInfo ite, Server &server);
-int		PING(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
+void	PING(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
 void 	sendmessage(std::vector<ClientInfo> clients, ClientInfo &ite, string message, Channel channel);
 void	PRIVMSG(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Channel> &channel);

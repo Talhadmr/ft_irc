@@ -5,8 +5,7 @@
 void    USER(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
     std::vector<ClientInfo>::iterator it = clients.begin();
-    std::cout << "KONTOLRRRR" << endl;
-    if (ite.commands.size() < 4)
+    if (ite.commands.size() < 5)
     {
         ERR_NEEDMOREPARAMS("USER");
         return ;

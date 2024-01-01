@@ -31,6 +31,7 @@ class Server
         std::vector <Channel> channels;
         string c_name();
         void serving();
+        std::string message;
 };
 
 void	command_info(string buffer, std::vector<ClientInfo> clients,  ClientInfo &ite);

@@ -61,8 +61,7 @@ void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::v
 				if (users->get_nickname() == ite.commands[1])
 				{
 					flag = 1;
-					string message = RPL_WHOREPLY(users->get_nickname(),"*", users->get_username(), server.hostname, "localhost", users->get_nickname(), "*", "0 ", users->get_realname());
-					cout <<users->get_realname() << endl;
+					string message = RPL_WHOREPLY(users->get_nickname(),"*", users->get_username(), server.hostname, "localhost", users->get_nickname(), "*", "0", users->get_realname());
 					send(ite.socket_fd, message.c_str() , message.size(), 0);
 					message = RPL_ENDOFWHO(users->get_nickname(), "channel");
 					send(ite.socket_fd, message.c_str() , message.size(), 0);
