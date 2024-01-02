@@ -8,8 +8,6 @@
 #include <vector>
 #include "Client.hpp"
 
-using std::endl;
-using std::string;
 
 class ClientInfo;
 
@@ -21,15 +19,15 @@ class Channel
 	std::vector <ClientInfo *>admin;
 
 	bool isTopic;
-	string topic;
+	std::string topic;
 
-	string ChannelName;
-	string getPrefix();
-	Channel(string, ClientInfo *, ClientInfo *);
+	std::string ChannelName;
+	std::string getPrefix();
+	Channel(std::string, ClientInfo *, ClientInfo *);
 	void adduser(ClientInfo *client);
 	int checkuser(ClientInfo *client);
-	void setTopic(string topic);
-	string getTopic();
+	void setTopic(std::string topic);
+	std::string getTopic();
 };
 
 #endif

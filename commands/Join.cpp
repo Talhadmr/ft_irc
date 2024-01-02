@@ -4,7 +4,7 @@
 
 void	JOIN_info(std::vector<ClientInfo> clients, ClientInfo &ite, Channel &channels)
 {
-	string names;
+	std::string names;
 	std::vector <ClientInfo *> a= channels.users;
 	for(std::vector <ClientInfo *>::iterator itera = a.begin() ; itera != a.end(); itera++)
 	{
@@ -22,7 +22,7 @@ void	JOIN_info(std::vector<ClientInfo> clients, ClientInfo &ite, Channel &channe
 	for(std::vector <ClientInfo *>::iterator itera = a.begin() ; itera != a.end(); itera++)
 	{
 		sendmessage_join((*itera), RPL_NAMREPLY((*itera)->get_nickname(), channels.ChannelName, names));
-		//sendmessage_join(clients, (*itera), RPL_ENDOFNAMES((*itera)->get_nickname(), channels.ChannelName), channels);
+		sendmessage_join((*itera), RPL_ENDOFNAMES((*itera)->get_nickname(), channels.ChannelName));
 	}
 }
 int	JOIN_check(std::vector <Channel>::iterator itChannels, ClientInfo &ite)
@@ -59,6 +59,8 @@ void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std:
 		ite.isjoined.push_back(newChannel);
 		channels.push_back(newChannel);
 		sendmessage(ite, " JOIN You are now in channel " + newChannel.ChannelName);
+		std::string buffer = RPL_NOTOPIC(ite.get_nickname(), newChannel.ChannelName);
+		sendmessage_for_topic(ite, RPL_NOTOPIC(ite.get_nickname(), newChannel.ChannelName));
 		JOIN_info(clients, ite, newChannel);
 	}
 }

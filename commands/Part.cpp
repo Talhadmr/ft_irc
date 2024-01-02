@@ -2,11 +2,11 @@
 #include "../command.hpp"
 #include "../RPL.hpp"
 
-void PART2(ClientInfo &sender, string message, Channel &channel)
+void PART2(ClientInfo &sender, std::string message, Channel &channel)
 {
     for (std::vector<ClientInfo *>::iterator itUser = channel.users.begin(); itUser != channel.users.end(); itUser++)
     {
-        cout << "send to " << message << endl;
+
         sendmessage2(sender, (*itUser)->socket_fd, message);
     }
 }
@@ -17,7 +17,7 @@ void PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std:
     std::vector<std::string>::iterator k = ite.commands.begin();
 	if(ite.commands.size() == 3)
 	{
-		string name;
+		std::string name;
 		for(std::vector<std::string>::iterator k = ite.commands.begin(); k != ite.commands.end(); k++)
 		{
 			name += *k;
@@ -52,7 +52,6 @@ void PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std:
 						{
 							if ((*users1)->get_nickname() == ite.get_nickname())
 							{
-								cout << "ccc";
 								PART2(ite, "PART " + itChannels->ChannelName + " :" + name, *itChannels);
 								itChannels->users.erase(users1);
 								channels.erase(itChannels);

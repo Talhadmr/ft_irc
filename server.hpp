@@ -11,9 +11,7 @@
 #include "Channel.hpp"
 #include <arpa/inet.h>
 
-using std::string;
-using std::cout;
-using std::endl;
+
 class Channel;
 
 class Server
@@ -29,14 +27,14 @@ class Server
         std::string _pass;
         Server(char *str);
         std::vector <Channel> channels;
-        string c_name();
+        std::string c_name();
         void serving();
         std::string message;
 };
 
-void	command_info(string buffer, std::vector<ClientInfo> clients,  ClientInfo &ite);
-void	command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite);
+void	command_info(std::string buffer, std::vector<ClientInfo> clients,  ClientInfo &ite);
+void	command_message(std::string buffer,std::vector<ClientInfo> clients,ClientInfo &ite);
 void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
-
+void    nc_control(std::string buffer,std::vector<ClientInfo> clients,ClientInfo &it);
 
 #endif

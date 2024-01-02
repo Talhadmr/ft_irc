@@ -28,10 +28,10 @@ void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::v
 			{
 				for(std::vector<ClientInfo *>::iterator users = itChannels->users.begin(); users != itChannels->users.end(); users++)
 				{
-					string message = RPL_WHOREPLY((*users)->get_nickname(), itChannels->ChannelName, (*users)->get_username(), server.hostname, "localhost", (*users)->get_nickname(), "*", "0 ", (*users)->get_realname());
+					std::string message = RPL_WHOREPLY((*users)->get_nickname(), itChannels->ChannelName, (*users)->get_username(), server.hostname, "localhost", (*users)->get_nickname(), "*", "0 ", (*users)->get_realname());
 					send(ite.socket_fd, message.c_str() , message.size(), 0);
 				}
-				string message2= RPL_ENDOFWHO(ite.get_nickname(), itChannels->ChannelName);
+				std::string message2= RPL_ENDOFWHO(ite.get_nickname(), itChannels->ChannelName);
 				send(ite.socket_fd, message2.c_str() , message2.size(), 0);
 			}
 			itChannels++;
@@ -50,7 +50,7 @@ void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::v
 				if (users->get_nickname() == ite.commands[1])
 				{
 					flag = 1;
-					string message = RPL_WHOREPLY(users->get_nickname(), c->ChannelName, users->get_username(), server.hostname, "localhost", users->get_nickname(), "*", "0 ", users->get_realname());
+					std::string message = RPL_WHOREPLY(users->get_nickname(), c->ChannelName, users->get_username(), server.hostname, "localhost", users->get_nickname(), "*", "0 ", users->get_realname());
 					send(ite.socket_fd, message.c_str() , message.size(), 0);
 					message = RPL_ENDOFWHO(users->get_nickname(), c->ChannelName);
 					send(ite.socket_fd, message.c_str() , message.size(), 0);
@@ -61,7 +61,7 @@ void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::v
 				if (users->get_nickname() == ite.commands[1])
 				{
 					flag = 1;
-					string message = RPL_WHOREPLY(users->get_nickname(),"*", users->get_username(), server.hostname, "localhost", users->get_nickname(), "*", "0", users->get_realname());
+					std::string message = RPL_WHOREPLY(users->get_nickname(),"*", users->get_username(), server.hostname, "localhost", users->get_nickname(), "*", "0", users->get_realname());
 					send(ite.socket_fd, message.c_str() , message.size(), 0);
 					message = RPL_ENDOFWHO(users->get_nickname(), "channel");
 					send(ite.socket_fd, message.c_str() , message.size(), 0);

@@ -1,7 +1,7 @@
 
 #include "Channel.hpp"
 
-Channel::Channel(string name, ClientInfo *user, ClientInfo *admin)
+Channel::Channel(std::string name, ClientInfo *user, ClientInfo *admin)
 {
     this->isTopic = false;
     this->topic = "";
@@ -15,12 +15,12 @@ void Channel::adduser(ClientInfo *client)
     this->users.push_back(client);
 }
 
-string Channel::getTopic()
+std::string Channel::getTopic()
 {
     return this->topic;
 }
 
-void Channel::setTopic(string topic)
+void Channel::setTopic(std::string topic)
 {
     size_t colonPosition;
     colonPosition = topic.find(':');
@@ -31,5 +31,5 @@ void Channel::setTopic(string topic)
         this->topic = result;
     }
     else
-        std::cerr << "Hata: ':' karakteri bulunamadı." << std::endl;
+        std::cerr << "error ':' not found" << std::endl;
 }

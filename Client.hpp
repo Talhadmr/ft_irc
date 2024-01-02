@@ -9,9 +9,7 @@
 #include "Channel.hpp"
 #include "Client.hpp"
 
-using std::string;
-using std::cout;
-using std::endl;
+
 
 class Channel;
 class ClientInfo;
@@ -19,29 +17,30 @@ class ClientInfo;
 class ClientInfo
 {
     private:
-        string password;
-        string username;
-        string nickname;
-        string realname;
+        std::string password;
+        std::string username;
+        std::string nickname;
+        std::string realname;
 
     public:
         int socket_fd;
         sockaddr_in address;
         std::vector <Channel> isjoined;
-        string get_password();
-        string get_username();
-        string get_nickname();
-        string get_realname();
+        bool isregister;
+        std::string get_password();
+        std::string get_username();
+        std::string get_nickname();
+        std::string get_realname();
         std::vector <std::string> commands;
 
-        string hostname;
-        void set_password(string pass);
-        void set_username(string user);
-        void set_nickname(string nick);
-        void set_realname(string real);
+        std::string hostname;
+        void set_password(std::string pass);
+        void set_username(std::string user);
+        void set_nickname(std::string nick);
+        void set_realname(std::string real);
 
         int    get_joined(ClientInfo *ite);
-        string getPrefix();
+        std::string getPrefix();
 
         // İhtiyaç duyulan diğer bilgileri ekleyebilirsiniz.
 
