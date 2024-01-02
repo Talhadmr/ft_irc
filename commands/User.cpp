@@ -4,22 +4,31 @@
 
 void    USER(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
+    std::string message;
+    if (server.registered == true)
+    {
+        message = ERR_ALREADYREGISTRED();
+        send(ite.socket_fd,message.c_str(), message.size(), 0);
+        return;
+    }  
     std::vector<ClientInfo>::iterator it = clients.begin();
     if (ite.commands.size() < 5)
     {
-        ERR_NEEDMOREPARAMS("USER");
+        message = ERR_NEEDMOREPARAMS("USER");
+        send(ite.socket_fd,message.c_str(), message.size(), 0);
         return ;
     }
     std::vector<std::string> param = user_helper(ite);
     if (param.size() != 5 && param[2][0] != '0' && param[3][0] != '*')
     {
-        std::string message = ":" + ite.get_nickname() + "!" + ite.get_username() + "@" + server.hostname + ":" + " " + "Error: Wrong parameters" + "\r\n";
+        message = ":" + ite.get_nickname() + "!" + ite.get_username() + "@" + server.hostname + ":" + " " + "Error: Wrong parameters" + "\r\n";
         send(ite.socket_fd, message.c_str(), message.size(), 0);
         cout << "Wrong parameters" << endl;
         return ;
     }
     ite.set_username(param[1]);
     ite.set_realname(param[4]);
+    server.registered = true;
     param.clear();
 }
 

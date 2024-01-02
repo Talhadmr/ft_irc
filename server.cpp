@@ -7,6 +7,7 @@ ClientInfo::ClientInfo(int fd, sockaddr_in addr) : socket_fd(fd), address(addr)
 
 Server::Server(char *str) {
     char host_name[1024];
+    this->registered = false;
     int herror = gethostname(host_name, 1024);
 	if (herror == -1)
     {

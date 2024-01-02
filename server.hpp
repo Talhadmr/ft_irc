@@ -32,6 +32,7 @@ class Server
         string c_name();
         void serving();
         std::string message;
+        bool registered;
 };
 
 void	command_info(string buffer, std::vector<ClientInfo> clients,  ClientInfo &ite);
