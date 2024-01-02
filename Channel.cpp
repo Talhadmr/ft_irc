@@ -33,4 +33,3 @@ void Channel::setTopic(string topic)
     else
         std::cerr << "Hata: ':' karakteri bulunamadı." << std::endl;
 }
-

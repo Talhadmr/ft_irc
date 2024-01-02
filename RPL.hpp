@@ -7,7 +7,6 @@
 #define RPL_NOTOPIC(nickname, channel) "331 " + nickname + " " + channel + " :No topic is set"
 # define RPL_PONG(user_id, token) (user_id + " PONG " + token + "\r\n")
 # define RPL_PRIVMSG(nick, username, target, message) (":" + nick + "!" + username + "@localhost PRIVMSG " + target + " " + message + "\r\n")
-# define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
 #define RPL_NAMREPLY(nickname, channel, nicknames) "353 " + nickname + " = " + channel + " :" + nicknames + "\r\n"
 #define RPL_ENDOFNAMES(nickname, channel) "366 " + nickname + " " + channel + " :End of /NAMES list" + "\r\n"
 # define ERR_NOSUCHCHANNEL(channel) "403 " + channel + " :No such channel" + "\r\n"

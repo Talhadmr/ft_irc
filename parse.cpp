@@ -4,7 +4,6 @@
 #include "Client.hpp"
 #include "command.hpp"
 
-# define RPL_JOIN(user_id, channel) (user_id + " JOIN :#" +  channel + "\r\n")
 void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite)
 {
 	int i = 0;
@@ -72,14 +71,20 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 		PART(clients, ite, server, channels);
 	else if(*k == "PRIVMSG")
 		PRIVMSG(clients, ite, channels);
+	else if(*k == "NOTICE")
+		NOTICE(clients, ite, channels);
 	else if(*k == "USER")
 		USER(clients, ite, server, channels);
 	else if (*k == "TOPIC")
 		TOPIC(clients, ite, server, channels);
+	else if(*k == "KICK")
+		KICK(clients, ite, server, channels);
 	else if(*k == "CAP")
 		CAP(clients, ite, server);
 	else if(*k == "MODE")
 		MODE(clients, ite, server, channels);
+	else if(*k == "QUIT")
+		QUIT(clients, ite, server, channels);
 	else if (*k == "WHO")
 	{
 		if (ite.commands.size() == 1)
@@ -100,7 +105,7 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 		else
 			NICK(clients, ite, server, channels);
 	}
-	for (std::vector<std::string>::iterator it = ite.commands.begin(); it != ite.commands.end(); ++it) {
+	for (std::vector<std::string>::iterator it = ite.commands.begin(); it != ite.commands.end(); it++) {
             it->clear();
 	}
     ite.commands.erase(std::remove(ite.commands.begin(), ite.commands.end(), ""), ite.commands.end());

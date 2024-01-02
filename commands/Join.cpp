@@ -6,8 +6,6 @@ void	JOIN_info(std::vector<ClientInfo> clients, ClientInfo &ite, Channel &channe
 {
 	string names;
 	std::vector <ClientInfo *> a= channels.users;
-	std::vector <ClientInfo *> b= channels.admin;
-	cout << "******" << endl;
 	for(std::vector <ClientInfo *>::iterator itera = a.begin() ; itera != a.end(); itera++)
 	{
 		if(itera == a.begin())
@@ -23,37 +21,44 @@ void	JOIN_info(std::vector<ClientInfo> clients, ClientInfo &ite, Channel &channe
 	}
 	for(std::vector <ClientInfo *>::iterator itera = a.begin() ; itera != a.end(); itera++)
 	{
-		cout << "message "<< names << endl;
-		sendmessage_join(clients, (*itera), RPL_NAMREPLY((*itera)->get_nickname(), channels.ChannelName, names), channels);
+		sendmessage_join((*itera), RPL_NAMREPLY((*itera)->get_nickname(), channels.ChannelName, names));
+		//sendmessage_join(clients, (*itera), RPL_ENDOFNAMES((*itera)->get_nickname(), channels.ChannelName), channels);
 	}
 }
-
+int	JOIN_check(std::vector <Channel>::iterator itChannels, ClientInfo &ite)
+{
+	for(std::vector <ClientInfo *>::iterator itera = itChannels->users.begin() ; itera != itChannels->users.end(); itera++)
+	{
+		if((*itera)->get_nickname() == ite.get_nickname())
+			return (1);
+	}
+	return (0);
+}
 void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
 	std::vector<std::string>::iterator k = ite.commands.begin();
 	*k++;
-	cout << ite.get_nickname() << endl;
 	if(k[0][0] == '#')
 	{
 		for (std::vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
 		{
 			if(itChannels->ChannelName == *k)
 			{
+				if(JOIN_check(itChannels, ite) == 1)
+					return ;
 				ClientInfo *userPtr1 = &ite;
 				itChannels->adduser(userPtr1);
 				ite.isjoined.push_back(*itChannels);
-				sendmessage(clients, ite, "JOIN You are now in channel ", (*itChannels));
+				sendmessage(ite, "JOIN You are now in channel " + itChannels->ChannelName);
 				JOIN_info(clients, ite, *itChannels);
 				return ;
 			}
 		}
-		int i = 1;
 		ClientInfo *userPtr = &ite;
 		Channel newChannel = Channel((*k), userPtr, userPtr);
 		ite.isjoined.push_back(newChannel);
 		channels.push_back(newChannel);
-
-		sendmessage(clients, ite, "JOIN You are now in channel ", newChannel);
+		sendmessage(ite, " JOIN You are now in channel " + newChannel.ChannelName);
 		JOIN_info(clients, ite, newChannel);
 	}
 }

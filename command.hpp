@@ -24,22 +24,28 @@ using std::cout;
 using std::string;
 
 
-void	PASS(ClientInfo ite, Server &server);
+void	PASS(ClientInfo &ite, Server &server);
 int		PING(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void	JOIN(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
-void 	sendmessage(std::vector<ClientInfo> clients, ClientInfo &ite, string message, Channel channel);
+void sendmessage(ClientInfo &ite, string message);
 void	PRIVMSG(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Channel> &channel);
 void	JOIN_info(std::vector<ClientInfo> clients, ClientInfo &ite, Channel &channels);
-void	sendmessage_join(std::vector<ClientInfo> clients, ClientInfo *ite, string message, Channel channel);
+void sendmessage_join(ClientInfo *ite, string message);
 void	WHO(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> &channel);
 void	NICK(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
 void    TOPIC(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
 void    CAP(std::vector<ClientInfo> clients, ClientInfo ite, Server &server);
 void    MODE(std::vector<ClientInfo> clients, ClientInfo ite, Server &server, std::vector <Channel> channels);
-void    sendmessage_for_topic(std::vector<ClientInfo> clients, ClientInfo &ite, string message);
+void sendmessage_for_topic(ClientInfo &ite, string message);
 void	PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
-void	PART2(std::vector<ClientInfo> clients, ClientInfo *ite, Server &server, std::vector <Channel> &channels);
+void	PART2(std::vector<ClientInfo> clients, std::vector <ClientInfo *>::iterator itera, Server &server, Channel &channels, string name);
 void    USER(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
+void sendmessage_for_part(ClientInfo *ite, string message);
 std::vector<std::string>    user_helper(ClientInfo &ite);
+void    sendmessage2(ClientInfo &sender, int socketfd, string message);
+void	NOTICE(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Channel> &channel);
+void KICK(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
+void QUIT(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
+void sendmessage_privmsg(ClientInfo &ite,ClientInfo *clients,string message);
 
 #endif

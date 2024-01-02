@@ -34,6 +34,7 @@ class ClientInfo
         string get_realname();
         std::vector <std::string> commands;
 
+        string hostname;
         void set_password(string pass);
         void set_username(string user);
         void set_nickname(string nick);

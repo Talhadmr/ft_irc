@@ -43,7 +43,7 @@ string  ClientInfo::get_realname()
 
 string ClientInfo::getPrefix()
 {
-    return ":" + this->get_nickname() + "!" + this->get_username() + "@" + "k1m02s05.42istanbul.com.tr" + ":";
+    return ":" + this->get_nickname() + "!" + this->get_username() + "@" + this->hostname + ":";
 }
 
 int    ClientInfo::get_joined(ClientInfo *ite)
@@ -51,10 +51,7 @@ int    ClientInfo::get_joined(ClientInfo *ite)
     for (std::vector<Channel>::iterator it = isjoined.begin(); it != isjoined.end(); it++)
     {
         if (it->ChannelName == ite->get_nickname())
-        {
-            cout << "a";
             return 1;
-        }
     }
     return 0;
 }

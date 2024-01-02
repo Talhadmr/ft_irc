@@ -123,6 +123,7 @@ void Server::serving() {
                     {
                         command_info(buffer, clients, *it);
                         PASS(*it, *this);
+                        cout << buffer << endl;
                     }
                     else
                     {

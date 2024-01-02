@@ -2,53 +2,71 @@
 #include "../command.hpp"
 #include "../RPL.hpp"
 
-void	PART2(std::vector<ClientInfo> clients, std::vector <ClientInfo *>::iterator itera, Server &server, Channel &channels)
+void PART2(ClientInfo &sender, string message, Channel &channel)
 {
-	string temp = channels.ChannelName;
-		sendmessage_join(clients, (*itera), "PART " + temp + " :No boundaries on the net!\r\n", channels);
+    for (std::vector<ClientInfo *>::iterator itUser = channel.users.begin(); itUser != channel.users.end(); itUser++)
+    {
+        cout << "send to " << message << endl;
+        sendmessage2(sender, (*itUser)->socket_fd, message);
+    }
 }
 
 
 void PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
     std::vector<std::string>::iterator k = ite.commands.begin();
-    std::vector<Channel>::iterator a = ite.isjoined.begin();
-	//std::vector<Channel>::iterator b = channels.begin();
-
-	for(std::vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
+	*k
+	if(ite.commands.size() == 3)
 	{
-		if(k[1] == itChannels->ChannelName)
+		string name;
+		for(std::vector<std::string>::iterator k = ite.commands.begin(); k != ite.commands.end(); k++)
 		{
-			if(channels.size() >= 1)
+			name += *k;
+			name += " ";
+		}
+		for(std::vector<Channel>::iterator itChannels = channels.begin(); itChannels != channels.end(); itChannels++)
+		{
+			if(k[1] == itChannels->ChannelName)
 			{
-				for(std::vector<ClientInfo *>::iterator users1 = itChannels->users.begin(); users1 != itChannels->users.end(); users1++)
+				if(channels.size() >= 1)
 				{
-					cout << "users1:" << (*users1)->get_nickname() << endl;
-					if(itChannels->users.size() > 1)
+					for(std::vector<ClientInfo *>::iterator users1 = itChannels->users.begin(); users1 != itChannels->users.end(); users1++)
 					{
-						if ((*users1)->get_nickname() == ite.get_nickname())
+						if(itChannels->users.size() > 1)
 						{
-							PART2(clients, users1, server, *itChannels);
-							users1 = itChannels->users.erase(users1);
-							JOIN_info(clients, ite, *itChannels);
-							break ;
+							if ((*users1)->get_nickname() == ite.get_nickname())
+							{
+								PART2(ite, "PART " + itChannels->ChannelName + " :" + name, *itChannels);
+								itChannels->users.erase(users1);
+								for(std::vector<Channel>::iterator ite1 = ite.isjoined.begin(); ite1 != ite.isjoined.end(); ite1++)
+								{
+									if(ite1->ChannelName == itChannels->ChannelName)
+									{
+										ite.isjoined.erase(ite1);
+										break ;
+									}
+								}
+								break ;
+							}
 						}
-					}
-					else
-					{
-						if ((*users1)->get_nickname() == ite.get_nickname() && (++users1) != itChannels->users.end())
+						else if(itChannels->users.size() == 1)
 						{
-							PART2(clients, users1, server, *itChannels);
-							users1 = itChannels->users.erase(users1);
-							JOIN_info(clients, ite, *itChannels);
-							break ;
-						}
-						else
-						{
-							PART2(clients, users1, server, *itChannels);
-							itChannels->users.clear();
-							JOIN_info(clients, ite, *itChannels);
-							break;
+							if ((*users1)->get_nickname() == ite.get_nickname())
+							{
+								cout << "ccc";
+								PART2(ite, "PART " + itChannels->ChannelName + " :" + name, *itChannels);
+								itChannels->users.erase(users1);
+								channels.erase(itChannels);
+								for(std::vector<Channel>::iterator ite1 = ite.isjoined.begin(); ite1 != ite.isjoined.end(); ite1++)
+								{
+									if(ite1->ChannelName == itChannels->ChannelName)
+									{
+										ite.isjoined.erase(ite1);
+										break ;
+									}
+								}
+								return ;
+							}
 						}
 					}
 				}
