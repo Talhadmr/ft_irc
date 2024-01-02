@@ -1,47 +1,47 @@
 
 #include "Client.hpp"
 
-void    ClientInfo::set_password(string pass)
+void    ClientInfo::set_password(std::string pass)
 {
     password = pass;
 }
 
-void    ClientInfo::set_username(string user)
+void    ClientInfo::set_username(std::string user)
 {
     username = user;
 }
 
-void    ClientInfo::set_nickname(string nick)
+void    ClientInfo::set_nickname(std::string nick)
 {
     nickname = nick;
 }
 
-void    ClientInfo::set_realname(string real)
+void    ClientInfo::set_realname(std::string real)
 {
     realname = real;
 }
 
-string  ClientInfo::get_password()
+std::string  ClientInfo::get_password()
 {
     return password;
 }
 
-string  ClientInfo::get_username()
+std::string  ClientInfo::get_username()
 {
     return username;
 }
 
-string  ClientInfo::get_nickname()
+std::string  ClientInfo::get_nickname()
 {
     return nickname;
 }
 
-string  ClientInfo::get_realname()
+std::string  ClientInfo::get_realname()
 {
     return realname;
 }
 
-string ClientInfo::getPrefix()
+std::string ClientInfo::getPrefix()
 {
     return ":" + this->get_nickname() + "!" + this->get_username() + "@" + this->hostname + ":";
 }

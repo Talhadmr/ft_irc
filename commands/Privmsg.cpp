@@ -4,10 +4,8 @@
 
 void	PRIVMSG(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Channel> &channel)
 {
-	std::vector<string>::iterator k = ite.commands.begin();
-	string message1 = "PRIVMSG " + ite.get_nickname()+ " "+ k[2] + "\r\n";
-	cout << "k1::"<<k[1] << endl;
-	cout << "k2::"<<k[2] << endl;
+	std::vector<std::string>::iterator k = ite.commands.begin();
+	std::string message1 = "PRIVMSG " + ite.get_nickname()+ " "+ k[2] + "\r\n";
 	if(ite.commands.size() >= 3)
 	{
 		if(k[1][0] == '#')
@@ -32,7 +30,7 @@ void	PRIVMSG(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Chan
 			{
 				if(itClients->get_nickname() == k[1] && ite.get_nickname() != itClients->get_nickname())
 				{
-					string buffer1 = ite.getPrefix() + " "  + message1 +"\r\n";
+					std::string buffer1 = ite.getPrefix() + " "  + message1 +"\r\n";
 					send(itClients->socket_fd, buffer1.c_str(), buffer1.size(), 0);
 					return ;
 				}

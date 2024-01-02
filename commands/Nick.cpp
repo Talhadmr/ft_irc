@@ -14,7 +14,6 @@ void	NICK(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std
 	std::string error;
 	if (server.flag == 1)
 	{
-		cout << cc->get_nickname() << endl;
 		server.flag = 0;
 		return ;
 	}
@@ -39,7 +38,7 @@ void	NICK(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std
 		{
 			error = ERR_NICKNAMEINUSE(*k);
 			if(send(ite.socket_fd, error.c_str() , error.size(), 0) < 0)
-				cout << "SEND ERROR"<< endl;
+				std::cout << "SEND ERROR"<< std::endl;
 			return ;
 		}
 		cc++;
@@ -52,9 +51,9 @@ void	NICK(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std
 			std::string buffer = RPL_NICK(ite.get_nickname(), ite.get_username(), *k);
 			cc->set_nickname(*k);
 			ite.set_nickname(*k);
-			cout << "NICK Requesting the new nick " + cc->get_nickname() + "\r\n" << endl;
+			std::cout << "NICK Requesting the new nick " + cc->get_nickname() + "\r\n" << std::endl;
 			if (send(ite.socket_fd, buffer.c_str(), buffer.size(), 0) < 0)
-				cout << "SEND ERROR" << endl;
+				std::cout << "SEND ERROR" << std::endl;
 		}
 		cc++;
 	}

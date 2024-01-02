@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
     }
 
     Server server(argv[1]);
+    
     server._pass = static_cast<std::string>(argv[2]);
     if(server._pass.empty())
     {

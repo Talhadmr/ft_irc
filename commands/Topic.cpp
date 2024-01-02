@@ -14,13 +14,12 @@ void TOPIC(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, st
 			{
 				itChannels->isTopic = true;
 				itChannels->setTopic(k[1]);
-				std::cout << "TOPIC: " << itChannels->topic << std::endl;
 				sendmessage_for_topic(ite, RPL_TOPIC(ite.get_nickname(), itChannels->ChannelName, itChannels->getTopic()));
 				return ;
 			}
 			else
 			{
-				string buffer = RPL_NOTOPIC(ite.get_nickname(), itChannels->ChannelName);
+				std::string buffer = RPL_NOTOPIC(ite.get_nickname(), itChannels->ChannelName);
 				sendmessage_for_topic(ite, RPL_NOTOPIC(ite.get_nickname(), itChannels->ChannelName));
 				return ;
 			}

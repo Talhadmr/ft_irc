@@ -23,7 +23,6 @@ void    USER(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, s
     {
         message = ":" + ite.get_nickname() + "!" + ite.get_username() + "@" + server.hostname + ":" + " " + "Error: Wrong parameters" + "\r\n";
         send(ite.socket_fd, message.c_str(), message.size(), 0);
-        cout << "Wrong parameters" << endl;
         return ;
     }
     ite.set_username(param[1]);

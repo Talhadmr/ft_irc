@@ -3,7 +3,9 @@
 #include "Client.hpp"
 
 ClientInfo::ClientInfo(int fd, sockaddr_in addr) : socket_fd(fd), address(addr)
-{}
+{
+    this->isregister = false;
+}
 
 Server::Server(char *str) {
     char host_name[1024];
@@ -11,7 +13,7 @@ Server::Server(char *str) {
     int herror = gethostname(host_name, 1024);
 	if (herror == -1)
     {
-        cout << "Host Error" << endl;
+        std::cout << "Host Error" << std::endl;
 		exit(1);
     }
 	this->hostname = host_name;
@@ -60,13 +62,15 @@ Server::Server(char *str) {
     std::cout << "server is listening\n";
 }
 
-void Server::serving() {
+void Server::serving()
+{
     fd_set rfds, tmp_rfds;
     int max_sd, new_socket;
     struct sockaddr_in client;
     socklen_t addr_len = sizeof(client);
     std::vector<ClientInfo> clients;
     int flag = 0;
+    int w_flag = 0;
 
     FD_ZERO(&rfds);
     FD_SET(_socket, &rfds);
@@ -110,31 +114,35 @@ void Server::serving() {
             {
                 char buffer[1024];
                 int bytes_received = recv(client_socket, buffer, sizeof(buffer), 0);
+
                 if (bytes_received <= 0)
                 {
                     std::cout << "Client on socket " << client_socket << " disconnected." << std::endl;
                     close(client_socket);
                     FD_CLR(client_socket, &rfds);
-                    it = clients.erase(it);  // Iterator'ı güncelle
+                    it = clients.erase(it);
                 }
                 else
                 {
                     buffer[bytes_received] = '\0';
-                    if(flag == 1)
+                    if(flag == 1 && buffer[0])
                     {
-                        command_info(buffer, clients, *it);
-                        PASS(*it, *this);
-                        cout << buffer << endl;
+                        if(buffer[strlen(buffer) -2] == '\r')
+                         {
+                            command_info(buffer, clients, *it);
+                            PASS(*it, *this);
+                         }
+                        else
+                        {
+                            //nc_control(buffer, clients, *it);
+                        }
                     }
-                    else
+                    else if(buffer[0])
                     {
                         command_message(buffer, clients, *it);
                         search_command(clients, *it, *this, this->channels);
-                        //channel(clients, *it);
-                         //std::cout << "Received from client " << client_socket << ": " << buffer << std::endl;
                     }
                     flag = 0;
-
                     ++it;
                 }
             }
