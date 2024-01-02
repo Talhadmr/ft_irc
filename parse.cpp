@@ -7,6 +7,7 @@
 void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite)
 {
 	int i = 0;
+	cout << buffer << endl;
 	std::vector <string> name;
 	int index = buffer.find('\n',i);
 	name.push_back(buffer.substr(i, index + 1));
@@ -17,18 +18,17 @@ void	command_info(string buffer,std::vector<ClientInfo> clients, ClientInfo &ite
 	k = name.begin();
 	i = 0;
 	index = k->find(':',i);
-
-
 	ite.set_password(k->substr(index + 1, k++->length() - 2));
 
-	 i = 0;
-	 index = k->find(' ',i);
-	 ite.set_nickname(k->substr(index + 1, k++->length() - (index + 3)));
-	 i = 0;
-	 index = k->find(' ',i);
-	 indexx = k->find(' ',index + 1);
-	 ite.set_username(k->substr(index + 1, indexx - (index + 1)));
-	 ite.set_realname(k->substr(index + 1, indexx - (index + 1)));
+	i = 0;
+	index = k->find(' ',i);
+	ite.set_nickname(k->substr(index + 1, k++->length() - (index + 3)));
+	i = 0;
+	index = k->find(' ',i);
+	indexx = k->find(' ',index + 1);
+	ite.set_username(k->substr(index + 1, indexx - (index + 1)));
+	index = k->find(':', indexx);
+	ite.set_realname(k->substr(index + 1, (k->length() - index) - 3));
 }
 
 void    command_message(string buffer,std::vector<ClientInfo> clients,ClientInfo &ite)
