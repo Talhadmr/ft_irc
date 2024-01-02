@@ -134,7 +134,7 @@ void Server::serving()
                          }
                         else
                         {
-                            //nc_control(buffer, clients, *it);
+                            nc_control(buffer, clients, *it);
                         }
                     }
                     else if(buffer[0])
