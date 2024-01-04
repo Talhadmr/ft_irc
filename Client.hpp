@@ -40,9 +40,6 @@ class ClientInfo
         void set_realname(std::string real);
 
         int    get_joined(ClientInfo *ite);
-        std::string getPrefix();
-
-        // İhtiyaç duyulan diğer bilgileri ekleyebilirsiniz.
 
     ClientInfo(int fd, sockaddr_in addr);
 };

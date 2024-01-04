@@ -4,13 +4,9 @@
 #include "Client.hpp"
 #include "command.hpp"
 
-
-
-
 void nc_control(std::string buffer,std::vector<ClientInfo> clients,ClientInfo &it)
 {
     char temp[1024];
-	std::cout << "debug\n";
 	command:
     std::string pass = "Please enter the password: ";
 	memset(temp, 0, sizeof(temp));
@@ -140,7 +136,7 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 			PASS(ite,server);
 		else if(*k == "PART" && ite.isregister == true)
 			PART(clients, ite, server, channels);
-		else if(*k == "PRIVMSG" && ite.isregister == true)
+		else if(*k == "PRIVMSG" && ite.isregister == true && (k + 1 != ite.commands.end()))
 			PRIVMSG(clients, ite, channels);
 		else if(*k == "NOTICE" && ite.isregister == true)
 			NOTICE(clients, ite, channels);
@@ -154,8 +150,6 @@ void	search_command(std::vector<ClientInfo> clients, ClientInfo &ite, Server &se
 			CAP(clients, ite, server);
 		else if(*k == "MODE" && ite.isregister == true)
 			MODE(clients, ite, server, channels);
-		else if(*k == "QUIT")
-			QUIT(clients, ite, server, channels);
 		else if (*k == "WHO" && ite.isregister == true)
 		{
 			if (ite.commands.size() == 1)

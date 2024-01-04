@@ -42,7 +42,6 @@ std::vector<std::string>    user_helper(ClientInfo &ite);
 void    sendmessage2(ClientInfo &sender, int socketfd, std::string message);
 void	NOTICE(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Channel> &channel);
 void KICK(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
-void QUIT(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels);
 void sendmessage_privmsg(ClientInfo &ite,ClientInfo *clients,std::string message);
 
 #endif

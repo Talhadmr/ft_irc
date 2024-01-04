@@ -15,8 +15,6 @@ void PART2(ClientInfo &sender, std::string message, Channel &channel)
 void PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std::vector <Channel> &channels)
 {
     std::vector<std::string>::iterator k = ite.commands.begin();
-	if(ite.commands.size() == 3)
-	{
 		std::string name;
 		for(std::vector<std::string>::iterator k = ite.commands.begin(); k != ite.commands.end(); k++)
 		{
@@ -70,6 +68,5 @@ void PART(std::vector<ClientInfo> clients, ClientInfo &ite, Server &server, std:
 				}
 			}
 		}
-	}
 }
 

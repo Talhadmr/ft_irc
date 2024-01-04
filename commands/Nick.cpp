@@ -2,7 +2,7 @@
 #include "../command.hpp"
 #include "../RPL.hpp"
 
-void	NICK(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channel) // bütün kanallara nick eklendi mesajı gönder join yapıldıktan sonra -- ite.nickname değişmiyor -- bütün clientlarda nickname karşılaştır
+void	NICK(std::vector<ClientInfo> &clients, ClientInfo &ite, Server &server, std::vector <Channel> &channel)
 {
 	std::vector<Channel>::iterator t = channel.begin();
 	if (t != channel.end())

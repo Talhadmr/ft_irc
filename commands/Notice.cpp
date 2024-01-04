@@ -28,7 +28,8 @@ void	NOTICE(std::vector<ClientInfo> clients, ClientInfo &ite, std::vector <Chann
 			{
 				if(itClients->get_nickname() == itArgs[1] && ite.get_nickname() != itClients->get_nickname())
 				{
-					std::string buffer1 = ite.getPrefix() + " "  + message1 +"\r\n";
+					std::string a = ":" + ite.get_nickname() + "!" + ite.get_username() + "@" + ite.hostname + ":";
+					std::string buffer1 = a + " "  + message1 +"\r\n";
 					send(itClients->socket_fd, buffer1.c_str(), buffer1.size(), 0);
 					break;
 				}
